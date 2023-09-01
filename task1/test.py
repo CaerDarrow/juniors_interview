@@ -28,3 +28,11 @@ class TaskOneTest(unittest.TestCase):
     def test_5(self):
         with self.assertRaises(TypeError):
             val_return(1, "1")
+
+    def test_6(self):
+        res = val_return(a=1, c=1, b="1")
+        self.assertEqual(res, (1, "1", 1))
+
+    def test_7(self):
+        with self.assertRaises(TypeError):
+            val_return(a="1", c=1, b="1")

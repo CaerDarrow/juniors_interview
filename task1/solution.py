@@ -4,9 +4,8 @@ def strict(func):
         arguments = [type(val) for val in [*args]]
         key_args = {**kwargs}
 
-        for key, val in func.__annotations__.items():
-            if key in key_args.keys():
-                arguments.append(type(key_args.get(key)))
+        key_lst = [type(key_args.get(key)) for key, val in func.__annotations__.items() if key in key_args.keys()]
+        arguments.extend(key_lst)
 
         if annotations != arguments:
             raise TypeError
