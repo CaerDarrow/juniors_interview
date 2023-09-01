@@ -3,8 +3,7 @@ import csv
 import re
 from collections import Counter
 
-import aiohttp
-from aiohttp import ClientSession
+from aiohttp import ClientSession, TCPConnector
 from bs4 import BeautifulSoup
 
 
@@ -41,7 +40,7 @@ def write_data(data: list):
 
 
 async def main() -> None:
-    async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False)) as session:
+    async with ClientSession(connector=TCPConnector(ssl=False)) as session:
         animals_counter = Counter()
         bas_url = 'https://ru.wikipedia.org/'
         url = 'https://ru.wikipedia.org/wiki/Категория:Животные_по_алфавиту'
@@ -59,7 +58,7 @@ async def main() -> None:
 
 
 async def test_count_animals_on_page():
-    async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False)) as session:
+    async with ClientSession(connector=TCPConnector(ssl=False)) as session:
         animals_counter = Counter()
         url = 'https://ru.wikipedia.org/wiki/Категория:Животные_по_алфавиту'
         page = await get_page(session, url)
