@@ -1,11 +1,11 @@
+import asyncio
 import csv
 import re
+from collections import Counter
+
 import aiohttp
-import asyncio
 from aiohttp import ClientSession
 from bs4 import BeautifulSoup
-from collections import Counter
-import os
 
 
 async def get_page(session: ClientSession, url: str) -> bytes:

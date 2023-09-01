@@ -1,6 +1,7 @@
 import functools
 import inspect
 
+
 def strict(func: callable) -> callable:
     @functools.wraps(func)
     def wrapper(*args) -> any:
