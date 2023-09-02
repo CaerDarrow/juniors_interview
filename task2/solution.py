@@ -16,6 +16,7 @@ class WikiAnimalsParser:
 
     def parse(self):
         current_page = 1
+        last_links = []
         current_url = self.domain_url + self.start_url
         while current_page < self.pages_limit:
             response = requests.get(current_url)
@@ -23,9 +24,16 @@ class WikiAnimalsParser:
                 raise ValueError(f"Response is not OK: {response}")
             soup = BeautifulSoup(response.content, "lxml")
             self._parse_animals(soup)
-            pref_url, next_url = self._get_last_next_links(soup)
-            print(self.data)
+            links = self._get_last_next_links(soup)
+            _, next_url = links
+            if next_url in last_links:
+                break
+            if len(last_links) >= 8:
+                last_links = links
+            else:
+                last_links.extend(links)
             current_url = self.domain_url + next_url
+        self._save_to_file()
 
     def _parse_animals(self, soup: BeautifulSoup) -> None:
         columns_div = soup.find("div", {"class": "mw-category mw-category-columns"})
@@ -37,11 +45,16 @@ class WikiAnimalsParser:
             else:
                 self.data[letter] += 1
 
-    def _get_last_next_links(self, soup: BeautifulSoup) -> tuple[str, str]:
+    def _save_to_file(self):
+        with open(self.filepath, "w")as file:
+            dict_writer = csv.DictWriter(file, ["letter", "amount"])
+            dict_writer.writerows({"letter": k, "amount": v} for k, v in self.data.items())
+
+    def _get_last_next_links(self, soup: BeautifulSoup) -> list[str, str]:
         link_tags = soup.find("div", {"id": "mw-pages"}).find_all("a", recursive=False)
-        return tuple((link_tag['href'] for link_tag in link_tags[:2]))  # type: ignore
+        return [link_tag['href'] for link_tag in link_tags[:2]]  # type: ignore
 
 
 if __name__ == '__main__':
-    parser = WikiAnimalsParser("animals.csv")
+    parser = WikiAnimalsParser("beasts.csv")
     parser.parse()
