@@ -10,3 +10,6 @@
 [Задача 1](task1/task1.md)   
 [Задача 2](task2/task2.md)  
 [Задача 3](task3/task3.md)
+
+[Telegram](https://t.me/Denver_g)
+[CV](https://ufa.hh.ru/resume/62e65082ff0143fae70039ed1f6741756b3639)
