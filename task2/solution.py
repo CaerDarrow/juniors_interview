@@ -35,5 +35,6 @@ def write_to_csv(filename: str, data: dict) -> None:
 
 
 if __name__ == '__main__':
-    data = pars_data('https://ru.wikipedia.org/wiki/Категория:Животные_по_алфавиту')
+    url = 'https://ru.wikipedia.org/wiki/Категория:Животные_по_алфавиту'
+    data = pars_data(url)
     write_to_csv('beasts.csv', data)

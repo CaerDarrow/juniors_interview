@@ -1,3 +1,6 @@
+import unittest
+
+
 def strict(func):
     def wrapper(*args, **kwargs):
         arg_types = func.__annotations__
@@ -29,5 +32,12 @@ def sum_two(a: int, b: int) -> int:
     return a + b
 
 
-print(sum_two(1, 2))  # >>> 3
-print(sum_two(1, 2.4))  # >>> TypeError
+class TestTypeCheckDecorator(unittest.TestCase):
+    def test_add_numbers(self):
+        self.assertEqual(sum_two(1, 2), 3)
+        self.assertRaises(TypeError, sum_two, 1, "2")
+        self.assertRaises(TypeError, sum_two, "1", 2)
+
+
+if __name__ == '__main__':
+    unittest.main()
