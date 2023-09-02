@@ -115,10 +115,6 @@ class WikiCategoryParser:
 
 
 if __name__ == '__main__':
-    # start_url = 'https://ru.wikipedia.org//w/index.php?title=%D0%9A%D0%B0%D1%82%D0%B5%D0%B3%D0%BE%D1%80%D0%B8%D1%8F:%D0%96%D0%B8%D0%B2%D0%BE%D1%82%D0%BD%D1%8B%D0%B5_%D0%BF%D0%BE_%D0%B0%D0%BB%D1%84%D0%B0%D0%B2%D0%B8%D1%82%D1%83&filefrom=%D0%90&pagefrom=%D0%AF%D0%BF%D0%BE%D0%BD%D1%81%D0%BA%D0%B0%D1%8F+%D0%BC%D1%83%D1%85%D0%BE%D0%BB%D0%BE%D0%B2%D0%BA%D0%B0&subcatfrom=%D0%90#mw-pages'
-    # last_url = 'https://ru.wikipedia.org//w/index.php?title=%D0%9A%D0%B0%D1%82%D0%B5%D0%B3%D0%BE%D1%80%D0%B8%D1%8F:%D0%96%D0%B8%D0%B2%D0%BE%D1%82%D0%BD%D1%8B%D0%B5_%D0%BF%D0%BE_%D0%B0%D0%BB%D1%84%D0%B0%D0%B2%D0%B8%D1%82%D1%83&filefrom=%D0%90&pagefrom=%D0%AF%D0%BF%D0%BE%D0%BD%D1%81%D0%BA%D0%B0%D1%8F+%D0%BC%D1%83%D1%85%D0%BE%D0%BB%D0%BE%D0%B2%D0%BA%D0%B0&subcatfrom=%D0%90#mw-pages'
-
     wiki_parcer = WikiCategoryParser(PARCER_PARAMS)
     wiki_parcer.parse_pages()
     wiki_parcer.save_into_csv('beasts.csv')
-    wiki_parcer.save_into_csv('test_beasts.csv')

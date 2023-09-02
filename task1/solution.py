@@ -2,6 +2,8 @@ from functools import wraps
 
 
 def strict(some_func):
+    """Функция, которая проверяет, что у функции-аргумента указаны
+    все тайпхинтинги."""
     @wraps(some_func)
     def wrap(*args, **kwargs):
         if len(args) + len(kwargs) != len(some_func.__annotations__):
