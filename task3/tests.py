@@ -1,5 +1,5 @@
 import pytest
-from task3 import appearance
+from solution import appearance
 
 
 @pytest.mark.parametrize(

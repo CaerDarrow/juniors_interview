@@ -1,5 +1,5 @@
 import pytest
-from task2 import WikiCategoryParser, PARCER_PARAMS
+from solution import WikiCategoryParser, PARCER_PARAMS
 import csv
 
 
