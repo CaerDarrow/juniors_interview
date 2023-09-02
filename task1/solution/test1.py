@@ -1,6 +1,6 @@
 import pytest
 
-from task1.solution.solution import strict
+from solution import strict
 
 
 @strict
