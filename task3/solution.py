@@ -40,6 +40,8 @@ def make_intersecting_intervals(
 
 
 def appearance(intervals: dict[str, list[int]]) -> int:
+    '''Получает на вход словарь с интервалами и возвращает время общего
+    присутствия ученика и учителя на уроке (в секундах).'''
     intersecting_intervals = make_intersecting_intervals(
         make_clear_intervals(intervals['pupil']),
         make_clear_intervals(intervals['tutor'])

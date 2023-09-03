@@ -53,7 +53,7 @@ def strict(func):
             if annotations[key] != type(val):
                 raise TypeError(
                     f'Type of argument {key} must be {annotations[key]}'
-                    )
+                )
         return func(*args, **kwargs)
     return wrapper
 

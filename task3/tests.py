@@ -2,7 +2,6 @@ import unittest
 
 from solution import appearance
 
-
 tests = [
     {'intervals': {'lesson': [1594663200, 1594666800],
              'pupil': [1594663340, 1594663389, 1594663390, 1594663395, 1594663396, 1594666472],

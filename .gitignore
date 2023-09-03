@@ -21,3 +21,14 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+
+# DB stuff:
+*.log
+local_settings.py
+http_cache.sqlite
+http_cache.sqlite-journal
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
