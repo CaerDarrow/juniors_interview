@@ -16,7 +16,7 @@ class BeastCounter:
         self.beasts_dict = {}
         self.result_file_name = result_file_name
 
-    async def run_script(self):
+    async def run_script(self) -> None:
         """Main method to run script."""
         print('Start counting beasts..')
         await self._count_beasts(self.URL)
@@ -26,7 +26,7 @@ class BeastCounter:
         self._write_to_csv()
         print('Done!')
 
-    async def _count_beasts(self, url: str):
+    async def _count_beasts(self, url: str) -> None:
         """Counts beasts and writes data to dictionary."""
         soup = await self._get_soup(url)
         animal_columns = soup.select('div.mw-category.mw-category-columns')[0]
@@ -68,7 +68,7 @@ class BeastCounter:
         next_page_url = self.URL_BASE + next_page_tag['href']
         return next_page_url
 
-    def _write_to_csv(self):
+    def _write_to_csv(self) -> None:
         """Write data to csv file."""
         with open(self.result_file_name, 'w', encoding='utf-8', newline='') as csvfile:
             beasts_writer = csv.writer(csvfile, delimiter=',',
