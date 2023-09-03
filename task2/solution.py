@@ -11,7 +11,7 @@ def get_result(soup):
     if not next_page:
         return
     for table in tables:
-        letter = table.h3.text
+        letter = table.h3.text.encode("utf-8")
         result[letter] = result.get(letter, 0) + len(table.find_all('li'))
         # if letter in result:
         #     result[letter] += len(table.find_all('li'))
@@ -26,7 +26,7 @@ async def get_info(session, url):
         return get_result(soup)
 
 
-async def main(url):
+async def start_parsing(url):
     async with aiohttp.ClientSession() as session:
         page = await get_info(session, url)
         while page:
@@ -35,15 +35,19 @@ async def main(url):
 
 
 def write_csv(data):
-    with open('beasts.csv', 'w', encoding='UTF-8') as file:
+    with open('beasts.csv', 'w', encoding='utf-8-sig') as file:
         for letter, quantity in result.items():
-            file.write(f'{letter},{quantity}\n')
+            file.write(f'{letter.decode("utf-8")},{quantity}\n')
 
+
+def main():
+    global result
+    result = {}
+    asyncio.run(start_parsing('https://ru.wikipedia.org/wiki/Категория:Животные_по_алфавиту'))
+    write_csv(result)
 
 if __name__ == "__main__":
-    # result = dict.fromkeys(list("АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0)
-    result = {}
-    asyncio.run(main('https://ru.wikipedia.org/wiki/Категория:Животные_по_алфавиту'))
-    write_csv(result)
+    main()
+
 
 
