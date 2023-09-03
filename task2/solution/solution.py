@@ -11,13 +11,13 @@ class Member(BaseModel):
 
 API_URL = "https://ru.wikipedia.org/w/api.php"
 params = {
-    'action': 'query',
-    'format': 'json',
-    'list': 'categorymembers',
-    'cmtitle': 'Категория:Животные по алфавиту',
-    'cmprop': 'title',
-    'cmstartsortkeyprefix': '',
-    'cmlimit': 500
+    "action": "query",
+    "format": "json",
+    "list": "categorymembers",
+    "cmtitle": "Категория:Животные по алфавиту",
+    "cmprop": "title",
+    "cmstartsortkeyprefix": "",
+    "cmlimit": 500,
 }
 
 animals = {}
@@ -58,11 +58,11 @@ def fill_animals_count():
     while con:
         res_json = get_page_json()
 
-        if res_json.get('continue', None) is None:
+        if res_json.get("continue", None) is None:
             con = False
             next_page = None
         else:
-            next_page = res_json['continue']['cmcontinue']
+            next_page = res_json["continue"]["cmcontinue"]
 
         query = res_json.get("query", None)
         if not query:  # check response
@@ -75,11 +75,11 @@ def fill_animals_count():
         parse_write_json_members(members)
 
         if con:
-            params['cmcontinue'] = next_page
+            params["cmcontinue"] = next_page
 
 
 def write_to_csv():
-    with open('beasts.csv', 'w', newline='', encoding='utf-8') as csvfile:
+    with open("beasts.csv", "w", newline="", encoding="utf-8") as csvfile:
         writer = csv.writer(csvfile)
         for k, v in sorted(animals.items()):  # IDK how to sort normal with `Ё`
             writer.writerow([k, v])
