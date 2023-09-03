@@ -10,7 +10,7 @@ def get_letters_and_counts() -> dict[str, int]:
     letters_and_counts = {}
 
     while True:
-        doc = bs4.BeautifulSoup(html)
+        doc = bs4.BeautifulSoup(html, features="html.parser")
         content = doc.find('div', {'id': 'mw-pages'})
         groups = content.find_all('div', {'class': 'mw-category-group'})
         
@@ -50,5 +50,6 @@ def fill_file(file_path: str, rows: list[list]):
             writer.writerow(row)
 
 
-letters_and_counts = get_letters_and_counts()
-fill_file('./task2/res.csv', letters_and_counts.items())
+if __name__ == '__main__':
+    letters_and_counts = get_letters_and_counts()
+    fill_file('./task2/res.csv', letters_and_counts.items())
