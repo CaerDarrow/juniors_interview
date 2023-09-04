@@ -42,7 +42,8 @@ def parse_animals_count(url: str) -> None:
             f' добавленные буквы: {[key for key in alphabet_counter]}')
 
     with open('beasts.csv', 'a', encoding='UTF-8') as b:
-        for letter, count in alphabet_counter.items():
+        for letter, count in sorted(alphabet_counter.items(),
+                                    key=lambda x: (x[0].isascii(), x[0])):
             b.write(f'{letter}, {count}\n')
 
 
