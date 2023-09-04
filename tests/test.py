@@ -1,7 +1,7 @@
 import os
-from solution1 import sum_two
-from solution2 import write_beasts
-from solution3 import appearance
+from task1.solution1 import sum_two
+from task2.solution2 import write_beasts
+from task3.solution3 import appearance
 
 
 class TestSolution1:
