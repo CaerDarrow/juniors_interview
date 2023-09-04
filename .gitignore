@@ -1,0 +1,4 @@
+.idea
+venv/
+__pycache__/
+task2.animals.csv
