@@ -1,0 +1,4 @@
+**/__pycache__*/
+**/beasts.csv*/
+**/.pytest_cache*/
+.venv/
