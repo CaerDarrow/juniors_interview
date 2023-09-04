@@ -1,5 +1,5 @@
 import pytest
-from solution import strict
+from task1.solution import strict
 
 @strict
 def sum_two_int(a:int, b: int) -> int:
