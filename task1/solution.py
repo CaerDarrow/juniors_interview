@@ -45,8 +45,10 @@ class StrictTests(unittest.TestCase):
         self.assertEqual(result, 3)
 
         result = test_different_types(1, 1.2, 'Jupiter is a planet', True)
-        self.assertEqual(result['sum'], 2.2)
-        self.assertTrue(result['Jupiter is a planet'])
+        expected_result = 2.2
+        self.assertEqual(result['sum'], expected_result, f'Expected {expected_result}, got {result}.')
+        expected_result = True
+        self.assertTrue(result['Jupiter is a planet'], f'Expected {expected_result}, got {result}.')
 
     def test_invalid_args(self):
         with self.assertRaises(TypeError):

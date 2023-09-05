@@ -21,7 +21,7 @@ def parse_animals_from_wiki() -> None:
     with open('beasts.csv', 'w', newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
 
-        # Run cycle while letter in range of uppercase russian letters from A to Я.
+        # Run cycle while letter in range of uppercase russian letters from A to Я
         while 1040 <= ord(letter) <= 1071:
             url = base_url + relative_url
 
@@ -38,7 +38,7 @@ def parse_animals_from_wiki() -> None:
                 animal_links_num = len(group.find_all('a', href=True))
 
                 if group_letter == letter:
-                    # Increment the animal_amount if letter hasn't changed.
+                    # Increment the animal_amount if letter hasn't changed
                     animal_amount += animal_links_num
                 else:
                     # Write data, update letter and set new value to the animal_amount
