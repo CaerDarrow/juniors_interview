@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "juniors-interview"
+version = "0.1.0"
+description = "test tasks"
+authors = ["Dahaka1 <ijoech@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pytest = "^7.4.1"
+aiohttp = "^3.8.5"
+requests = "^2.31.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
