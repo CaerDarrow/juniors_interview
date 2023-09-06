@@ -1,5 +1,14 @@
 """Подсчет элементов, взятых из википедии и начинающиеся на первую букву."""
 
+import logging
+from collections import Counter
+from urllib.parse import unquote, urljoin, urlparse
+
+import requests
+from bs4 import BeautifulSoup
+
+logger = logging.getLogger(__name__)
+
 
 def save_txt(name_file: str, data: dict[str, int]) -> None:
     """Сохранение данные в текстовой файл."""
@@ -16,21 +25,10 @@ def save_csv(name_file: str, data: dict[str, int]) -> None:
         for elem in sorted(data.items()):
             writer.writerows([elem])
 
-
-def main():
-    from collections import Counter
-    from urllib.parse import unquote, urljoin
-
-    import requests
-    from bs4 import BeautifulSoup
-
-    logger.debug('Старт программы')
-
-    NAME_FILE_CSV = 'beasts.csv'
-
-    base_url = 'https://ru.wikipedia.org'
-    link = 'https://ru.wikipedia.org/wiki/Категория:Животные_по_алфавиту'
-
+def counter_parsed(link: str) -> dict[str, int]:
+    """Парсирование страницы википедии и счет животных на первую букву."""
+    parsed_url = urlparse(link)
+    base_url = parsed_url.scheme + '://' + parsed_url.netloc
     counter = Counter()
     while link:
         url = urljoin(base_url, link)
@@ -52,14 +50,22 @@ def main():
         link = main_block.find('a', string='Следующая страница')
         if link:
             link = link.get('href')
+    return counter
+
+
+def main():
+    logger.debug('Старт программы')
+
+    NAME_FILE_CSV = 'beasts.csv'
+    link = 'https://ru.wikipedia.org/wiki/Категория:Животные_по_алфавиту'
+
+    counter = counter_parsed(link)
 
     save_csv(NAME_FILE_CSV, counter)
     logger.debug('Завершение программы')
 
 
 if __name__ == '__main__':
-    import logging
-    logger = logging.getLogger(__name__)
     logger.addHandler(logging.StreamHandler())
     logger.setLevel(logging.DEBUG)
     main()
