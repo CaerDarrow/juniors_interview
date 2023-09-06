@@ -1,4 +1,5 @@
 import unittest
+import subprocess
 
 from config import FILENAME, TEST_FILENAME
 from solution import main
@@ -24,4 +25,5 @@ class WikiTestCase(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    subprocess.run('playwright install')
     unittest.main()
