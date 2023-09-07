@@ -5,9 +5,10 @@ def strict(func):
     def wrapper(*args, **kwargs):
         types = inspect.get_annotations(func).values()
 
-        for arg, type in zip(args, types):
-            if not isinstance(arg, type):
-                raise TypeError
+        # types -> dict_values([class_first_arg, class_second_arg, ..., class_return_value])
+        for arg, arg_type in zip(args, types):
+            if not isinstance(arg, arg_type):
+                raise TypeError('')
         return func(*args, **kwargs)
 
     return wrapper

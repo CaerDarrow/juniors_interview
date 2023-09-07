@@ -1,4 +1,3 @@
-import asyncio
 import csv
 import pathlib
 import re
@@ -6,18 +5,10 @@ import time
 from collections import Counter
 from functools import wraps
 
-from aiohttp import ClientSession, TCPConnector
+import requests
 from bs4 import BeautifulSoup
 
 import logging
-
-'''
-Почему асинхронный код работает в данном случае быстрее?
-Если он вызывается по сути везде последовательно.
-aiohttp оптимизированнее, чем requests? 
-
-Уточнить данный вопрос на курсе или у Тетрики (Андрея)
-'''
 
 # Параметры логирования
 logging.basicConfig(filename="py_log.log",
@@ -47,12 +38,12 @@ def log_time(logger, description=''):
     return inner
 
 
-async def get_page(session: ClientSession, url: str) -> bytes:
-    async with session.get(url) as response:
-        return await response.read()
+def get_page(session, url: str) -> bytes:
+    response = session.get(url)
+    return response.content
 
 
-async def get_count_of_animals(soup: BeautifulSoup) -> dict[str, int]:
+def get_count_of_animals(soup: BeautifulSoup) -> dict[str, int]:
     mw_pages = soup.find('div', id='mw-pages')
     animals_counter = {}
 
@@ -67,7 +58,7 @@ async def get_count_of_animals(soup: BeautifulSoup) -> dict[str, int]:
     return animals_counter
 
 
-async def get_next_page(soup: BeautifulSoup) -> str | None:
+def get_next_page(soup: BeautifulSoup) -> str | None:
     try:
         mw_pages = soup.find('div', id='mw-pages')
         next_page = mw_pages.find('a', string=re.compile('Следующая страница')).get('href')
@@ -82,47 +73,46 @@ def write_data(saving_path, data: list):
         writer.writerows(data)
 
 
-async def main_async() -> None:
+@log_time(logger=parsing_logger)
+def main() -> None:
     bas_url = 'https://ru.wikipedia.org/'
     url = 'https://ru.wikipedia.org/wiki/Категория:Животные_по_алфавиту'
 
-    async with ClientSession(connector=TCPConnector(ssl=False)) as session:
-        animals_counter: Counter = Counter()
+    animals_counter: Counter = Counter()
 
-        while True:
-            page = await get_page(session, url)
-            soup = BeautifulSoup(page, 'html.parser')
-            count_of_animals = await get_count_of_animals(soup)
+    while True:
+        session = requests.Session()
 
-            animals_counter.update(count_of_animals)
-            next_page = await get_next_page(soup)
-            if not next_page:
-                break
-            url = bas_url + next_page
-        print(animals_counter.total())
+        page = get_page(session, url)
+        soup = BeautifulSoup(page, 'html.parser')
+        count_of_animals = get_count_of_animals(soup)
+
+        animals_counter.update(count_of_animals)
+        next_page = get_next_page(soup)
+        if not next_page:
+            break
+        url = bas_url + next_page
+    print(animals_counter.total())
 
     return animals_counter
-
-
-@log_time(logger=parsing_logger)
-def main(saving_path):
-    animals_counter = asyncio.run(main_async())
-
-    char_animal_list = sorted(animals_counter.items())
-    write_data(saving_path, char_animal_list)
 
 
 if __name__ == '__main__':
     saving_path = base_dir / 'beasts.csv'
 
-    main(saving_path)
+    animals_counter = main()
+    char_animal_list = sorted(animals_counter.items())
+    write_data(saving_path, char_animal_list)
 
-# before cache
-# 2023-09-07 18:13:40,569 - __main__ - INFO - Start parsing  (main)
-# 2023-09-07 18:15:19,055 - __main__ - INFO - Parsing time  (main): 98.49s
+# without session
+# 2023-09-07 18:30:29,870 - __main__ - INFO - Start parsing  (main)
+# 2023-09-07 18:31:23,610 - __main__ - INFO - Parsing time  (main): 53.74s
 
-# after cache
-# 2023-09-04 19:14:26,985 - __main__ - INFO - Start parsing  (main)
-# 2023-09-04 19:14:47,776 - __main__ - INFO - Parsing time  (main): 20.79s
+# with session before cache
+# 2023-09-07 18:34:34,892 - __main__ - INFO - Start parsing  (main)
+# 2023-09-07 18:35:28,676 - __main__ - INFO - Parsing time  (main): 53.78s
 
+# with session after cache
+# 2023-09-07 18:36:13,615 - __main__ - INFO - Start parsing  (main)
+# 2023-09-07 18:37:07,343 - __main__ - INFO - Parsing time  (main): 53.73s
 
