@@ -27,5 +27,6 @@ class WikiTestCase(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    # библиотека Playwright требует установки собственного chromedriver
     subprocess.run('playwright install')
     unittest.main()
