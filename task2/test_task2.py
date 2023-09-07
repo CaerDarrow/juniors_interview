@@ -12,6 +12,8 @@ class WikiTestCase(unittest.TestCase):
         self.csv = open(TEST_FILENAME, 'r')
 
     def test_parse(self):
+        """Проверяем соответствие содержимого beasts.csv тестовым данным"""
+
         main()
         with open(FILENAME, 'r') as file:
             self.assertListEqual(
