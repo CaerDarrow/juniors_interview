@@ -10,37 +10,33 @@ def get_sum(intervals: list[int]) -> int:
     return total_sum
 
 
-def correct_intervals(
-        limits: list[int],
-        intervals: list[int]
-) -> list[int]:
+def appearance(intervals: dict[str, list[int]]) -> int:
+    lesson_start = intervals['lesson'][0]
+    lesson_end = intervals['lesson'][1]
+    tutor = intervals['tutor']
+    pupil = intervals['pupil']
     result = []
-    for i in range(0, len(limits), 2):
-        start = limits[i]
-        end = limits[i + 1]
-        for j in range(0, len(intervals), 2):
-            i_start = intervals[j]
-            i_end = intervals[j + 1]
 
-            left = max(start, i_start)
-            right = min(end, i_end)
+    for i in range(0, len(tutor), 2):
+        t_start = tutor[i]
+        t_end = tutor[i + 1]
+        for j in range(0, len(pupil), 2):
+            p_start = pupil[j]
+            p_end = pupil[j + 1]
+
+            left = max(lesson_start, t_start, p_start)
+            right = min(lesson_end, t_end, p_end)
 
             if left >= right:
                 continue
 
+            # clear duplicates intersections
             if result and left <= result[-1]:
                 result[-1] = max(result[-1], right)
             else:
                 result.extend([left, right])
 
-    return result
-
-
-def appearance(intervals: dict[str, list[int]]) -> int:
-    tutor = correct_intervals(intervals['lesson'], intervals['tutor'])
-    pupil = correct_intervals(tutor, intervals['pupil'])
-
-    return get_sum(pupil)
+    return get_sum(result)
 
 
 tests = [
@@ -69,5 +65,3 @@ if __name__ == '__main__':
         test_answer = appearance(test['intervals'])
         assert test_answer == test[
             'answer'], f'Error on test case {index}, got {test_answer}, expected {test["answer"]}'
-
-        print(f'Error on test case {index}, got {test_answer}, expected {test["answer"]}')
