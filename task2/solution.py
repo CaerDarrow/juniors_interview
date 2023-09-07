@@ -25,8 +25,10 @@ def parse(page: Page) -> dict[str, int]:
         beasts = page.locator(BEASTS_XPATH).all()
         try:
             for b in beasts:
+                # Первая буква названия животного является ключом словаря
                 data[b.inner_text()[0]] += 1
         except KeyError:
+            # После кириллицы на сайте идёт латиница, поэтому разрываем цикл
             break
         try:
             go_to_next_page(page)
