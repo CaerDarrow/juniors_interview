@@ -46,13 +46,31 @@ def strict(func):
     Traceback (most recent call last):
         ...
     TypeError: Type of argument d must be <class 'bool'>
+    >>> to_str(3, 0.1415926535, c=' == number pi is ', d=True)
+    '3.1415926535 == number pi is True'
+    >>> to_str(3, 0.1415926535, d=True, c=' == number pi is ')
+    '3.1415926535 == number pi is True'
+    >>> to_str(3, 0.1415926535, c=True, d=' == number pi is ')
+    Traceback (most recent call last):
+        ...
+    TypeError: Type of argument c must be <class 'str'>
+    >>> to_str(3, 0.1415926535, d=1, c=' == number pi is ')
+    Traceback (most recent call last):
+        ...
+    TypeError: Type of argument d must be <class 'bool'>
     """
     def wrapper(*args, **kwargs):
+        message = 'Type of argument {} must be {}'
         annotations = func.__annotations__
         for key, val in zip(annotations, args):
             if annotations[key] != type(val):
                 raise TypeError(
-                    f'Type of argument {key} must be {annotations[key]}'
+                    message.format(key, annotations[key])
+                )
+        for key, val in kwargs.items():
+            if annotations[key] != type(kwargs[key]):
+                raise TypeError(
+                    message.format(key, annotations[key])
                 )
         return func(*args, **kwargs)
     return wrapper
@@ -67,9 +85,6 @@ def sum_two(a: int, b: int) -> int:
 def to_str(a: int, b: float, c: str, d: bool) -> str:
     return str(a + b) + str(c) + str(d)
 
-
-print(sum_two(1, 2))  # >>> 3
-print(sum_two(1, 2.4))  # >>> TypeError
 
 if __name__ == '__main__':
     import doctest
