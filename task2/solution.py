@@ -1,7 +1,7 @@
 import csv
 
 from config import BEASTS_PAGE, BEASTS_XPATH, CYRILLIC_UPPER, FILENAME
-from playwright.async_api._generated import Page
+from playwright.sync_api._generated import Page
 from playwright.sync_api import sync_playwright
 
 
