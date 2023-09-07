@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "tetrika"
+version = "0.1.0"
+description = ""
+authors = ["Enver <radiantded@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+playwright = "^1.37.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
