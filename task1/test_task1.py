@@ -9,11 +9,17 @@ class SumTwoTestCase(unittest.TestCase):
     def test_int(self):
         self.assertEqual(sum_two(1, 2), 3)
 
-    def test_wrong_type(self):
+    def test_float(self):
         with self.assertRaises(TypeError):
-            sum_two(1, 2.4)
-            sum_two(1, True)
-            sum_two(1, '2')
+            sum_two(2, 2.4)
+
+    def test_bool(self):
+        with self.assertRaises(TypeError):
+            sum_two(3, True)
+
+    def test_string(self):
+        with self.assertRaises(TypeError):
+            sum_two(4, '2')
 
 
 if __name__ == '__main__':
