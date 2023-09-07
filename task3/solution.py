@@ -10,13 +10,6 @@ def get_sum(intervals: list[int]) -> int:
     return total_sum
 
 
-def clear_duplicate(start: int, end: int, arr: list[int]):
-    if arr and start <= arr[-1]:
-        arr[-1] = max(arr[-1], end)
-    else:
-        arr.extend([start, end])
-
-
 def correct_intervals(
         limits: list[int],
         intervals: list[int]
@@ -28,26 +21,24 @@ def correct_intervals(
         for j in range(0, len(intervals), 2):
             i_start = intervals[j]
             i_end = intervals[j + 1]
-            if start <= i_start < end and \
-                    start < i_end <= end:
-                clear_duplicate(i_start, i_end, result)
 
-            if i_start < start:
-                if start < i_end <= end:
-                    clear_duplicate(start, i_end, result)
+            left = max(start, i_start)
+            right = min(end, i_end)
 
-            if i_end > end:
-                if start <= i_start < end:
-                    clear_duplicate(i_start, end, result)
+            if left >= right:
+                continue
+
+            if result and left <= result[-1]:
+                result[-1] = max(result[-1], right)
+            else:
+                result.extend([left, right])
 
     return result
 
 
 def appearance(intervals: dict[str, list[int]]) -> int:
     tutor = correct_intervals(intervals['lesson'], intervals['tutor'])
-
-    pupil = correct_intervals(intervals['lesson'], intervals['pupil'])
-    pupil = correct_intervals(tutor, pupil)
+    pupil = correct_intervals(tutor, intervals['pupil'])
 
     return get_sum(pupil)
 
