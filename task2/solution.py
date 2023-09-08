@@ -26,9 +26,7 @@ while flag:
         )
     url = (
         "https://ru.m.wikipedia.org"
-        + soup.find_all("a", {"title": "Категория:Животные по алфавиту"})[-1][
-            "href"
-        ]
+        + soup.find_all("a", {"title": "Категория:Животные по алфавиту"})[-1]["href"]
     )
 
 
