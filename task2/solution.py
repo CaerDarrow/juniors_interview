@@ -33,11 +33,8 @@ while flag:
 req = requests.get(url, headers=headers).content
 soup = BeautifulSoup(req, "lxml")
 columns = soup.find_all("div", attrs={"class": "mw-category mw-category-columns"})
-links = [i.findAll("a") for i in columns][0]
-animals = [i.get_text() for i in links]
 
 link = soup.find("a", string="Следующая страница")
-
 
 with open("beasts.csv", "w", newline="") as file:
     writer = csv.writer(file)
