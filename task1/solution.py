@@ -46,7 +46,6 @@ class TestStrictDecorator(unittest.TestCase):
     def test_unexpected_keyword_argument(self):
         with self.assertRaises(TypeError):
             sum_two(a=1, b=2)
-
         with self.assertRaises(TypeError):
             sum_two(1, 2, c=3)
 
