@@ -5,6 +5,9 @@ import unittest
 
 def strict(f: Callable) -> Callable:
     def wrapper(*args) -> Callable:
+        # https://docs.python.org/3/library/stdtypes.html#typesmapping
+        # "Changed in version 3.7: Dictionary order is guaranteed to be insertion order.
+        # This behavior was an implementation detail of CPython from 3.6."
         for i, (arg_name, arg_class) in enumerate(f.__annotations__.items()):
             if arg_name != 'return':
                 if not isinstance(args[i], arg_class):
