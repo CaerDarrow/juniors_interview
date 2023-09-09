@@ -7,13 +7,16 @@ class AnimalParserTest(unittest.TestCase):
     def test_statuscode_nonepage(self):
         self.assertEqual(solution.responce.status_code, 200)
         self.assertNotEqual(solution.get_animal_list(solution.soup), "")
+         
 
     def test_firstletter_equal(self):
         first_letter = solution.get_animal_list(solution.soup)
         self.assertEqual(first_letter[0].text[0], 'А')
+         
 
     def test_nonlist(self):
         self.assertNotEqual(solution.get_animal_list(solution.soup), [])
+         
 
     def test_write_csv(self):
         data = {"A": 10, "B": 20, "C": 30}
