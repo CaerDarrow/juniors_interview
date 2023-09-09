@@ -3,7 +3,7 @@ import inspect
 
 def strict(func):
     signature = inspect.signature(func) # получаем сигнатуры
-    parameter_types = signature.parameters # сохраняем типы ожидвемых аргументов
+    parameter_types = signature.parameters # сохраняем типы ожидаемых аргументов
 
     def wrapper(*args, **kwargs):
         bound_arguments = signature.bind(*args, **kwargs) # объеденяем ожидаемые типы с переданными аргуменами
