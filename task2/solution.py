@@ -15,6 +15,7 @@ async def request(url: str, params: dict[str], sleep_time: float = 0.001) -> str
     :return: Ответ на запрос.
     """
     result = requests.get(url, params)
+    await asyncio.sleep(sleep_time)
     return result.text
 
 
@@ -181,3 +182,24 @@ async def solution(sleep_time: float = 0.001) -> None:
 if __name__ == '__main__':
     asyncio.run(solution(0.0001))
 
+    pass_str: str = "Animals count '{}' - {}. Ok."
+    err_str: str = "Error in '{}' animals count. It should be - {}, but - {}"
+    with open('./beasts.csv', 'r', encoding='utf-8') as csv_file:
+        csv_reader = csv.reader(csv_file)
+        for row in csv_reader:
+            match row[0]:
+                case 'Б':
+                    if int(row[1]) == 1686:
+                        print(pass_str.format('Б', 1686))
+                    else:
+                        raise ValueError(err_str.format('Б', 1686, row[1]))
+                case 'Е':
+                    if int(row[1]) == 106:
+                        print(pass_str.format('Е', 106))
+                    else:
+                        raise ValueError(err_str.format('Е', 106, row[1]))
+                case 'Я':
+                    if int(row[1]) == 211:
+                        print(pass_str.format('Я', 211))
+                    else:
+                        raise ValueError(err_str.format('Я', 211, row[1]))
