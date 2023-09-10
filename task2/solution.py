@@ -46,7 +46,7 @@ if __name__ == "__main__":
     if "-eng" in sys.argv:
         is_english_names = True
     get_all_pages_and_info(base_url)
-    with open("beasts.csv", "a+") as csv_file:
+    with open("beasts.csv", "a+", encoding='utf-8-sig') as csv_file:
         for key in sorted(ans_for_csv.keys()):
             str_csv = f"{key},{ans_for_csv[key]}\n"
             csv_file.write(str_csv)
