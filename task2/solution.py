@@ -26,8 +26,26 @@ async def get_animals_count(answer: str, simbol: str, sleep_time: float = 0.001)
     :param sleep_time: Время паузы для asincio
     :return: Количество животных, выявленых в answer.
     """
-    animal_pattern: re.Pattern = re.compile("<li><a\shref=\"/wiki/[^:]+?\"\stitle=\".+?\">{}.+?</a></li>".format(simbol))
-    animals_blocks: list = re.findall(animal_pattern, answer)
+    # Паттерн "срезающий" лишнююю верхнюю часть html-файла до маркера буквы
+    begin_pattern: re.Pattern = re.compile("<h3>{}".format(simbol) + "{1}</h3>.+", flags=re.DOTALL)
+    # Паттерн "срезающий" лишнюю нижнюю (после среза верхней)
+    # часть файла (если на этой же странице начинается другая буква)
+    end_pattern: re.Pattern = re.compile("^.*<h3>[^{}]".format(simbol) + "{1}</h3>", flags=re.DOTALL)
+
+    without_top: re.Match = re.search(begin_pattern, answer)
+    if without_top is not None:
+        # Животные на данную букву есть.
+        without_down: re.Match = re.match(end_pattern, without_top.group(0))
+        if without_down is not None:
+            for_find = without_down.group(0)
+        else:
+            for_find = without_top.group(0)
+    else:
+        return 0
+
+    # Извлечение из выделенного блока кусков с названиями животных на запрошенную букву
+    animal_pattern: re.Pattern = re.compile("<li><a\shref=\"/wiki/[^:]+?\"\stitle=\".+?\">.+?</a></li>")
+    animals_blocks: list = re.findall(animal_pattern, for_find)
 
     await asyncio.sleep(sleep_time)
 
@@ -98,7 +116,7 @@ async def solution(sleep_time: float = 0.001) -> None:
 
     # Создание списка с буквами русского и латинского алфавитов.
     alphabet: list[str] = [chr(value) for value in range(ord('А'), ord('Я') + 1)]
-    alphabet.append('Ё')
+    # alphabet.append('Ё')
     # Латинский алфавит
     # alphabet.extend([chr(value) for value in range(ord('A'), ord('Z') + 1)])
 
@@ -153,8 +171,8 @@ async def solution(sleep_time: float = 0.001) -> None:
     # Сортировка результатов в алфавитном порядке.
     animals_count = sorted(animals_count, key=lambda animals_count: animals_count[0])
     # Вставка Ё в нужное место.
-    yo: tuple = animals_count.pop(0)
-    animals_count.insert(6, yo)
+    # yo: tuple = animals_count.pop(0)
+    # animals_count.insert(6, yo)
 
     # Вывод результатов в файл.
     write_csv(animals_count)
@@ -162,3 +180,4 @@ async def solution(sleep_time: float = 0.001) -> None:
 
 if __name__ == '__main__':
     asyncio.run(solution(0.0001))
+
