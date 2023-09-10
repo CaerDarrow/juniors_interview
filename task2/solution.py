@@ -21,7 +21,11 @@ def get_info_from_current_page(url: str) -> str:
                 animal = elem_a.get_text()
                 if not is_english_names and animal[0] == 'A':
                     return ""
-                ans_for_csv[animal[0]] = ans_for_csv.get(animal[0], 0) + 1
+                words = animal.split()
+                if len(words) == 1:
+                    ans_for_csv[animal[0]] = ans_for_csv.get(animal[0], 0) + 1
+                else:
+                    ans_for_csv[words[-1][0].upper()] = ans_for_csv.get(words[-1][0].upper(), 0) + 1
     find_link_next_page = soup.find_all('div', id='mw-pages')
     a_tags = find_link_next_page[0].find_all('a')
     check_text = [a_tags[1].get_text(), a_tags[2].get_text()]
