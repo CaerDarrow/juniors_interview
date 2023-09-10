@@ -4,6 +4,7 @@ from typing import Callable
 
 
 def strict(f: Callable) -> Callable:
+    """ Декоратор, контролирующий совпадение типов формальных и фактических параметров функции. """
     def wrapper(*args) -> Callable:
         # https://docs.python.org/3/library/stdtypes.html#typesmapping
         # "Changed in version 3.7: Dictionary order is guaranteed to be insertion order.
