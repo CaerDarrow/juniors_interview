@@ -47,10 +47,10 @@ async def main():
         for start_letters in range(ord('A'), ord('Z') + 1):
             tasks.append(asyncio.create_task(get_all_info_for_letter(url, chr(start_letters))))
     await asyncio.gather(*tasks)
-    csv_f = open("beasts.csv", "a+")
-    for i in sorted(ans_for_csv.keys()):
-        row = f"{i},{ans_for_csv[i]}\n"
-        csv_f.write(row)
+    with open("beasts.csv", "a+", encoding='utf-8-sig') as csv_f:
+        for i in sorted(ans_for_csv.keys()):
+            row = f"{i},{ans_for_csv[i]}\n"
+            csv_f.write(row)
 
 
 """
