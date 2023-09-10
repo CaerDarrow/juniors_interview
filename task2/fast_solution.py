@@ -28,11 +28,7 @@ async def get_all_info_for_letter(url: str, from_letters: str):
             for elem_a in a_tag:
                 animal = elem_a.get_text()
                 c += 1
-                words = animal.split()
-                if len(words) == 1:
-                    ans_for_csv[animal[0]] = ans_for_csv.get(animal[0], 0) + 1
-                else:
-                    ans_for_csv[words[-1][0].upper()] = ans_for_csv.get(words[-1][0].upper(), 0) + 1
+                ans_for_csv[animal[0]] = ans_for_csv.get(animal[0], 0) + 1
                 list_animals.append(animal)
     if c == 200:
         find_link_next_page = soup.find_all('div', id='mw-pages')
