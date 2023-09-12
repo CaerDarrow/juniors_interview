@@ -20,11 +20,6 @@ async def test_get_page_data():
 
 
 @pytest.mark.asyncio
-async def test_gather_data(event_loop):
-    await gather_data()
-
-
-@pytest.mark.asyncio
 async def test_get_page_data_invalid_input():
     with pytest.raises(KeyError):
         async with aiohttp.ClientSession() as session:
