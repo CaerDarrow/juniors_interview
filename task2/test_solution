@@ -1,0 +1,17 @@
+import unittest
+import os
+
+from main import get_animal_counts
+
+class TestAnimalCounts(unittest.TestCase):
+    def test_animal_counts(self):
+        counts = get_animal_counts()
+        self.assertIsInstance(counts, dict)
+        for key in counts.keys():
+            self.assertTrue(key.isalpha())# проверка ключей
+        for value in counts.values():
+            self.assertIsInstance(value, int)# проверка значений словаря на инт
+        self.assertTrue(os.path.exists("beasts.csv"))# проверка на создание файла
+
+if __name__ == '__main__':
+    unittest.main()
