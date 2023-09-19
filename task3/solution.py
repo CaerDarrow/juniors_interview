@@ -5,7 +5,7 @@ def create_intervals(x1: int, x2: int, l: list[int]) -> list[tuple[int]]:
         y1, y2 = l[i], l[i + 1]
         if y1 < x1:
             y1 = x1
-        elif x2 < y2:
+        if x2 < y2:
             y2 = x2
         total.append((y1, y2))
 
@@ -37,6 +37,8 @@ def merge_intervals(intervals):
 
 def appearance(intervals: dict[str, list[int]]) -> int:
     list_pup, list_tut = intervals['pupil'], intervals['tutor']
+    if not (list_pup and list_tut):
+        return 0
     x1, x2 = intervals['lesson']
     l1 = create_intervals(x1, x2, list_pup)
     l2 = create_intervals(x1, x2, list_tut)
@@ -44,6 +46,16 @@ def appearance(intervals: dict[str, list[int]]) -> int:
     return calculate_total_intersection(inv1, inv2)
 
 tests = [
+    {'intervals': {"lesson": [717_200, 720_800],#время начала и конца, выходит за пределы урока
+                   "pupil": [717_162, 721_071],
+                   "tutor": [716_863, 721_072]},
+    'answer': 3600
+    },
+    {'intervals': {"lesson": [1594706400, 1594710000],#нет интервалов у пользователя
+                   "pupil": [],
+                   "tutor": [1594706499, 1594706515, 1594706541, 1594706605, 1594706980, 1594707812, 1594709644, 1594709658]},
+    'answer': 0
+    },
     {'intervals': {'lesson': [1594663200, 1594666800],
              'pupil': [1594663340, 1594663389, 1594663390, 1594663395, 1594663396, 1594666472],
              'tutor': [1594663290, 1594663430, 1594663443, 1594666473]},
